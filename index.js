@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const readline = require('readline');
 const https = require('https');
 const youtubedl = require('youtube-dl');
 const extractAudio = require('ffmpeg-extract-audio');
@@ -68,6 +69,7 @@ const playlist = async (url) => {
     pos += chunk.length;
     if(size) {
       let percent = (pos / size * 100).toFixed(2);
+      process.stdout.clearLine(0);
       process.stdout.cursorTo(0);
       process.stdout.clearLine(1);
       process.stdout.write(percent + '%');
@@ -88,15 +90,16 @@ const playlist = async (url) => {
   video.on('next', playlist);
 }
 
-if(!fs.existsSync(_directory))
-{
-  console.log("Le dossier spécifié est inexistant...");
-  process.exit();
-}
 if(!_url.match(urlRegex))
 {
   console.log("Le lien fournit ne correspond pas à une playlist youtube");
   process.exit();
 }
+if(!fs.existsSync(_directory))
+{
+  console.log(`Le dossier spécifié - ${_directory} - est inexistant...`);
+  process.exit();
+}
 
+console.log("Analyse des vidéos...");
 playlist(_url);
