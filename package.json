@@ -16,5 +16,9 @@
     "https": "^1.0.0",
     "path": "^0.12.7",
     "youtube-dl": "^3.0.2"
-  }
+  },
+  "pkg": {
+    "scripts": "C:\\Development\\Js\\YtPlaylist\\node_modules\\youtube-dl\\bin\\details"
+  },
+  "bin": "index.js"
 }
