@@ -28,7 +28,7 @@ const getThumbnail = (url, dir) => {
 
 const setMetadata = (file, thumbnail) => {
   var data = {
-    attachments: [resizedThumb]
+    attachments: [thumbnail]
   };
   
   ffmetadata.write(file, data, (err) => {
@@ -38,15 +38,15 @@ const setMetadata = (file, thumbnail) => {
 
 const removeIllegalCharacters = (title) => {
   return title
-    .replace(":", ";")
-    .replace("<", "(")
-    .replace(">", ")")
-    .replace("\"", "'")
-    .replace("/", " - ")
-    .replace("\\", " - ")
-    .replace("|", " - ")
-    .replace("?", ".")
-    .replace("*", " + ");
+    .replace(/\:/g, ";")
+    .replace(/\</g, "(")
+    .replace(/\>/g, ")")
+    .replace(/\"/g, "'")
+    .replace(/\//g, " - ")
+    .replace(/\\/g, " - ")
+    .replace(/\|/g, " - ")
+    .replace(/\?/g, ".")
+    .replace(/\*/g, " + ");
 }
 
 const playlist = async (url) => {
@@ -103,7 +103,7 @@ const playlist = async (url) => {
   video.on('next', playlist);
 }
 
-
+/*
 if(!_url.match(urlRegex))
 {
   console.log("Le lien fournit ne correspond pas à une playlist youtube");
@@ -116,4 +116,6 @@ if(!fs.existsSync(_directory))
 }
 
 console.log("Analyse des vidéos...");
-playlist(_url);
+playlist(_url);*/
+
+console.log(removeIllegalCharacters('Ossetia - "Tsela" Humorous Song.mp4'));
