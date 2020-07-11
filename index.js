@@ -103,7 +103,7 @@ const playlist = async (url) => {
   video.on('next', playlist);
 }
 
-/*
+
 if(!_url.match(urlRegex))
 {
   console.log("Le lien fournit ne correspond pas à une playlist youtube");
@@ -115,7 +115,5 @@ if(!fs.existsSync(_directory))
   process.exit();
 }
 
-//console.log("Analyse des vidéos...");
-//playlist(_url);*/
-
-console.log(removeIllegalCharacters('*'));
+console.log("Analyse des vidéos...");
+playlist(_url);
