@@ -28,12 +28,25 @@ const getThumbnail = (url, dir) => {
 
 const setMetadata = (file, thumbnail) => {
   var data = {
-    attachments: [thumbnail]
+    attachments: [resizedThumb]
   };
   
   ffmetadata.write(file, data, (err) => {
     if(err) throw err;
-  })
+  });
+}
+
+const removeIllegalCharacters = (title) => {
+  return title
+    .replace(":", ";")
+    .replace("<", "(")
+    .replace(">", ")")
+    .replace("\"", "'")
+    .replace("/", " - ")
+    .replace("\\", " - ")
+    .replace("|", " - ")
+    .replace("?", ".")
+    .replace("*", " + ");
 }
 
 const playlist = async (url) => {
@@ -51,7 +64,7 @@ const playlist = async (url) => {
   let thumbPath = '';
   video.on('info', (info) => {
     size = info.size;
-    title = info.title;
+    title = removeIllegalCharacters(info.title);
     thumbUrl = info.thumbnail
     dir = path.join(_directory + '/', title + '.mp4');
     video.pipe(fs.createWriteStream(dir));
@@ -60,7 +73,7 @@ const playlist = async (url) => {
     if (!fs.existsSync(_directory + '/thumbnails/')){
       fs.mkdirSync(_directory + '/thumbnails/');
     }
-    thumbPath = path.join(_directory + '/thumbnails/', title + '.png');
+    thumbPath = path.join(_directory + '/thumbnails/', title + '.jpg');
     getThumbnail(thumbUrl, thumbPath);
   });
 
@@ -90,6 +103,7 @@ const playlist = async (url) => {
   video.on('next', playlist);
 }
 
+/*
 if(!_url.match(urlRegex))
 {
   console.log("Le lien fournit ne correspond pas à une playlist youtube");
@@ -101,5 +115,7 @@ if(!fs.existsSync(_directory))
   process.exit();
 }
 
-console.log("Analyse des vidéos...");
-playlist(_url);
+//console.log("Analyse des vidéos...");
+//playlist(_url);*/
+
+console.log(removeIllegalCharacters('*'));
